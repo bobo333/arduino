@@ -576,7 +576,7 @@ void deletePixel(int p) {
   int row = p / 16;
   int col = p % 16;
   matrix.fillRect(2*col, 2*row, 2, 2, matrix.Color333(0, 0, 0));
-  delay(30);
+  delay(50);
 }
 
 // void diagWipe
