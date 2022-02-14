@@ -553,10 +553,10 @@ void wipeCol(int col) {
 }
 
 /*
- * Must do chunks of 2, running out of memory when doing individual pixels
+ * Must do chunks of 4, running out of memory when doing individual pixels
  */
 void pixelFade() {
-  int numPixel = 256;
+  int numPixel = 128;
   int pixels[numPixel];
   for (int i = 0; i < numPixel; i++) {
     pixels[i] = i;
