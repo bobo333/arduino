@@ -17,22 +17,25 @@ typedef struct point {
 
 void setup() {
   matrix.begin();
+  fu();
 }
 
 void loop() {
-  france();
-  italy();
-  ireland();
-  ukraine();
-  scotland();
-  canada();
-  quebec();
-  iceland();
-  jollyRoger();
-  eu();
-  sovietUnion();
-  cal();
-  // 13 colonies
+//  france();
+//  italy();
+//  ireland();
+//  ukraine();
+//  scotland();
+//  canada();
+//  quebec();
+//  iceland();
+//  jollyRoger();
+//  eu();
+//  sovietUnion();
+//  cal();
+//  fu();
+//  kosmo();
+// colonies
   // red sox B
   // red sox sox
   // bruins
@@ -44,10 +47,18 @@ void loop() {
   // old irish flag
   // nasa
   // odessa
-  // scrolling middle finger
   // cipriano();
   // sf();
   // greece();
+
+  // transitions
+  // wipe screen in various directions
+  // circle wipe from middle
+  // random pixels go black
+  // concentric rings from various locations
+  // concentric squares/rectangles
+  // matrix style fall down column
+  // pixels randomly cycle until correct color
 }
 
 void clearScreen() {
@@ -209,7 +220,7 @@ void cal() {
   uint16_t gold = matrix.Color444(15, 12, 0);
   matrix.fillScreen(matrix.Color444(0, 0, 1));
 
-  point deltas[] = {
+  point deltas[100] = {
     point{1, -1},
     point{-1, -1},
     point{-1, 0},
@@ -279,17 +290,15 @@ void cal() {
     point{0, 0}
   };
 
-  deltas.length;
-
   script(12, 4, deltas, gold);
   
   delay(DELAY);
 }
 
-void script(int x, int y, point deltas[], uint16_t color) {
+void script(int x, int y, point deltas[100], uint16_t color) {
   matrix.drawPixel(x, y, color);
   
-  for (int i = 0; i < deltas.length; i++) {
+  for (int i = 0; i < 100; i++) {
     point delta = deltas[i];
     if (delta.x == 0 && delta.y == 0) {
       break;
@@ -300,5 +309,127 @@ void script(int x, int y, point deltas[], uint16_t color) {
 
     matrix.drawPixel(x, y, color);
     delay(150);
+  }
+}
+
+void fu() {
+  clearScreen();
+  // rect divisible by 4
+  matrix.drawRect(12, 6, 9, 5, matrix.Color333(7, 7, 7));
+  // inner rect(s) to complete the 4
+  matrix.drawRect(14, 6, 3, 5, matrix.Color333(7, 7, 7));
+  matrix.drawLine(18, 6, 18, 10, matrix.Color333(7, 7, 7));
+  // smaller outer rect for thumb
+  matrix.drawRect(10, 6, 3, 3, matrix.Color333(7, 7, 7));
+
+  for (int i = 0; i < 5; i++) {
+    delay(250);
+    matrix.drawRect(14, 5-i, 3, 6+i, matrix.Color333(7, 7, 7));
+    matrix.drawPixel(15, 6-i, matrix.Color333(0, 0, 0));
+  }
+  // slowly increase height of inner rect for finger going up
+
+  // flash fuck off on and off
+  for (int i = 0; i < 7; i++) {
+    // f
+    uint16_t red = matrix.Color333(7, 0, 0);
+    matrix.drawLine(0, 11, 0, 15, red);
+    matrix.drawLine(0, 11, 2, 11, red);
+    matrix.drawLine(0, 13, 2, 13, red);
+
+    // u
+    uint16_t orange = matrix.Color333(7, 3, 0);
+    matrix.drawLine(4, 11, 4, 15, orange);
+    matrix.drawLine(4, 15, 6, 15, orange);
+    matrix.drawLine(6, 15, 6, 11, orange);
+
+    // c
+    uint16_t yellow = matrix.Color333(7, 7, 0);
+    matrix.drawLine(8, 11, 8, 15, yellow);
+    matrix.drawLine(8, 11, 10, 11, yellow);
+    matrix.drawLine(8, 15, 10, 15, yellow);
+
+    // k purple
+    uint16_t green = matrix.Color333(0, 7, 0);
+    matrix.drawLine(12, 11, 12, 15, green);
+    matrix.drawLine(13, 13, 15, 11, green);
+    matrix.drawLine(13, 13, 15, 15, green);
+
+    // pause then clear
+    delay(500);
+    matrix.fillRect(0, 11, 17, 5, matrix.Color333(0, 0, 0));
+
+    // o
+    matrix.drawRect(19, 11, 4, 5, matrix.Color333(0, 0, 7));
+
+    // f
+    uint16_t pink = matrix.Color333(2, 0, 3);
+    matrix.drawLine(24, 11, 24, 15, pink);
+    matrix.drawLine(24, 11, 26, 11, pink);
+    matrix.drawLine(24, 13, 26, 13, pink);
+
+    // f
+    uint16_t turquoise = matrix.Color333(1, 6, 4);
+    matrix.drawLine(28, 11, 28, 15, turquoise);
+    matrix.drawLine(28, 11, 30, 11, turquoise);
+    matrix.drawLine(28, 13, 30, 13, turquoise);
+
+    // pause then clear
+    delay(500);
+    matrix.fillRect(18, 11, 17, 5, matrix.Color333(0, 0, 0));
+  }
+
+  clearScreen();
+}
+
+void kosmo() {
+  matrix.setTextSize(1);
+
+  matrix.setCursor(0, 0);
+  matrix.setTextColor(matrix.Color333(7, 0, 0));
+  matrix.print("K");
+
+  matrix.setCursor(7, 2);
+  matrix.setTextColor(matrix.Color333(0, 7, 0));
+  matrix.print("O");
+
+  matrix.setCursor(14, 4);
+  matrix.setTextColor(matrix.Color333(0, 0, 7));
+  matrix.print("S");
+
+  matrix.setCursor(21, 6);
+  matrix.setTextColor(matrix.Color333(7, 0, 7));
+  matrix.print("M");
+
+  matrix.drawRect(27, 8, 5, 7, matrix.Color333(7, 7, 0));
+  matrix.drawPixel(27, 8, matrix.Color333(0, 0, 0));
+  matrix.drawPixel(31, 8, matrix.Color333(0, 0, 0));
+  matrix.drawPixel(27, 14, matrix.Color333(0, 0, 0));
+  matrix.drawPixel(31, 14, matrix.Color333(0, 0, 0));
+}
+
+void colonies() {
+  // top left rect
+  matrix.fillRect(0, 1, 11, 7, matrix.Color333(0, 0, 7));
+
+  // top left circle
+  matrix.drawCircle(5, 4, 2, matrix.Color333(7, 7, 7));
+
+  // stripes
+  uint16_t red = matrix.Color333(7, 0, 0);
+  uint16_t white = matrix.Color333(7, 7, 7);
+  uint16_t color;
+
+  for (int i = 0; i < 13; i++) {
+    if (i%2 == 0) {
+      color = red;
+    } else {
+      color = white;
+    }
+    if (i < 7) {
+      matrix.drawLine(11, 1+i, 31, 1+i, color);
+    } else {
+      matrix.drawLine(0, 1+i, 31, 1+i, color);
+    }
   }
 }
