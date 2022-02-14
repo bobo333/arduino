@@ -21,20 +21,50 @@ void setup() {
 
 void loop() {
   france();
+  delay(DELAY);
+  clearScreen();
   italy();
+  delay(DELAY);
+  clearScreen();
   ireland();
+  delay(DELAY);
+  clearScreen();
   ukraine();
+  delay(DELAY);
+  clearScreen();
   scotland();
+  delay(DELAY);
+  clearScreen();
   canada();
+  delay(DELAY);
+  clearScreen();
   quebec();
+  delay(DELAY);
+  clearScreen();
   iceland();
+  delay(DELAY);
+  clearScreen();
   jollyRoger();
+  delay(DELAY);
+  clearScreen();
   eu();
+  delay(DELAY);
+  clearScreen();
   sovietUnion();
+  delay(DELAY);
+  clearScreen();
   cal();
+  delay(DELAY);
+  clearScreen();
   fu();
+  delay(DELAY);
+  clearScreen();
   kosmo();
+  delay(DELAY);
+  clearScreen();
   colonies();
+  delay(DELAY);
+  clearScreen();
   // red sox B
   // red sox sox
   // bruins
@@ -85,41 +115,29 @@ void triColor(uint16_t lColor, uint16_t mColor, uint16_t rColor) {
 }
 
 void france() {
-  clearScreen();
   triColor(matrix.Color333(0, 0, 7), matrix.Color333(7, 7, 7), matrix.Color333(7, 0, 0));
-  delay(DELAY);
 }
 
 void italy() {
-  clearScreen();
   triColor(matrix.Color333(0, 7, 0), matrix.Color333(7, 7, 7), matrix.Color333(7, 0, 0));
-  delay(DELAY);
 }
 
 void ireland() {
-  clearScreen();
   triColor(matrix.Color333(0, 7, 0), matrix.Color333(7, 7, 7), matrix.Color333(7, 2, 0));
-  delay(DELAY);
 }
 
 void ukraine() {
-  clearScreen();
   matrix.fillRect(0, 0, 32, 8, matrix.Color333(0, 3, 7));
   matrix.fillRect(0, 8, 32, 8, matrix.Color333(7, 7, 0));
-  delay(1000);
-//  delay(DELAY);
 }
 
 void scotland() {
-  clearScreen();
   matrix.fillScreen(matrix.Color333(0, 0, 7));
   matrix.drawLine(0, 0, 31, 15, matrix.Color333(7, 7, 7));
   matrix.drawLine(31, 0, 0, 15, matrix.Color333(7, 7, 7));
-  delay(DELAY);
 }
 
 void canada() {
-  clearScreen();
   matrix.fillScreen(matrix.Color333(7, 0, 0));
   matrix.fillRect(9, 0, 14, 16, matrix.Color333(7, 7, 7));
   // leaf
@@ -134,11 +152,9 @@ void canada() {
   matrix.drawLine(14, 12, 10, 8, matrix.Color333(7, 0, 0));
   matrix.drawLine(14, 3, 14, 8, matrix.Color333(7, 0, 0));
   matrix.drawLine(17, 3, 17, 8, matrix.Color333(7, 0, 0));
-  delay(DELAY);
 }
 
 void quebec() {
-  clearScreen();
   uint16_t white = matrix.Color333(5, 5, 5);
   matrix.fillScreen(matrix.Color333(0, 0, 7));
   matrix.fillRect(0, 7, 32, 2, white);
@@ -147,7 +163,6 @@ void quebec() {
   fleurDeLis(24, 1, white);
   fleurDeLis(7, 10, white);
   fleurDeLis(24, 10, white);
-  delay(DELAY);
 }
 
 void fleurDeLis(int x, int y, uint16_t color) {
@@ -157,17 +172,14 @@ void fleurDeLis(int x, int y, uint16_t color) {
 }
 
 void iceland() {
-  clearScreen();
   matrix.fillScreen(matrix.Color444(0, 0, 2));
   matrix.fillRect(0, 6, 32, 4, matrix.Color333(1, 1, 1));
   matrix.fillRect(8, 0, 4, 16, matrix.Color333(1, 1, 1));
   matrix.fillRect(0, 7, 32, 2, matrix.Color333(3, 0, 0));
   matrix.fillRect(9, 0, 2, 16, matrix.Color333(3, 0, 0));
-  delay(DELAY);
 }
 
 void jollyRoger() {
-  clearScreen();
   // head
   matrix.fillRect(11, 0, 10, 8, matrix.Color333(3, 3, 3));
   matrix.drawPixel(11, 0, matrix.Color333(0, 0, 0));
@@ -190,11 +202,9 @@ void jollyRoger() {
   matrix.fillRect(8, 13, 3, 3, matrix.Color333(3, 3, 3));
   matrix.drawLine(11, 9, 20, 14, matrix.Color333(3, 3, 3));
   matrix.drawLine(11, 14, 20, 9, matrix.Color333(3, 3, 3));
-  delay(DELAY);
 }
 
 void eu() {
-  clearScreen();
   uint16_t gold = matrix.Color444(15, 13, 0);
   matrix.fillScreen(matrix.Color444(0, 0, 4));
   // stars
@@ -206,11 +216,9 @@ void eu() {
   matrix.fillRect(11, 3, 2, 2, gold);
   matrix.fillRect(11, 11, 2, 2, gold);
   matrix.fillRect(19, 11, 2, 2, gold);
-  delay(DELAY);
 }
 
 void sovietUnion() {
-  clearScreen();
   uint16_t gold = matrix.Color444(15, 12, 0);
   matrix.fillScreen(matrix.Color444(7, 0, 0));
   // hammer
@@ -226,11 +234,9 @@ void sovietUnion() {
   matrix.drawPixel(7, 4, gold);
   // star
   matrix.fillRect(5, 1, 2, 2, gold);
-  delay(DELAY);
 }
 
 void cal() {
-  clearScreen();
   uint16_t gold = matrix.Color444(15, 12, 0);
   matrix.fillScreen(matrix.Color444(0, 0, 1));
 
@@ -305,8 +311,6 @@ void cal() {
   };
 
   script(12, 4, deltas, gold);
-  
-  delay(DELAY);
 }
 
 void script(int x, int y, point deltas[100], uint16_t color) {
@@ -327,7 +331,6 @@ void script(int x, int y, point deltas[100], uint16_t color) {
 }
 
 void fu() {
-  clearScreen();
   // rect divisible by 4
   matrix.drawRect(12, 6, 9, 5, matrix.Color333(7, 7, 7));
   // inner rect(s) to complete the 4
@@ -397,13 +400,9 @@ void fu() {
       matrix.fillRect(18, 11, 17, 5, matrix.Color333(0, 0, 0));
     }
   }
-
-  delay(DELAY);
 }
 
 void kosmo() {
-  clearScreen();
-
   matrix.setTextSize(1);
 
   matrix.setCursor(0, 0);
@@ -427,12 +426,9 @@ void kosmo() {
   matrix.drawPixel(31, 8, matrix.Color333(0, 0, 0));
   matrix.drawPixel(27, 14, matrix.Color333(0, 0, 0));
   matrix.drawPixel(31, 14, matrix.Color333(0, 0, 0));
-
-  delay(DELAY);
 }
 
 void colonies() {
-  clearScreen();
   // top left rect
   matrix.fillRect(0, 1, 11, 7, matrix.Color333(0, 0, 7));
 
@@ -456,7 +452,6 @@ void colonies() {
       matrix.drawLine(0, 1+i, 31, 1+i, color);
     }
   }
-  delay(DELAY);
 }
 
 /*
