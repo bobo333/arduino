@@ -8,7 +8,7 @@
 #define C   A2
 
 RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, false);
-const int DELAY = 5000;
+const int DELAY = 1000;
 
 typedef struct point {
     int x;
@@ -17,25 +17,24 @@ typedef struct point {
 
 void setup() {
   matrix.begin();
-  fu();
 }
 
 void loop() {
-//  france();
-//  italy();
-//  ireland();
-//  ukraine();
-//  scotland();
-//  canada();
-//  quebec();
-//  iceland();
-//  jollyRoger();
-//  eu();
-//  sovietUnion();
-//  cal();
-//  fu();
-//  kosmo();
-// colonies
+  france();
+  italy();
+  ireland();
+  ukraine();
+  scotland();
+  canada();
+  quebec();
+  iceland();
+  jollyRoger();
+  eu();
+  sovietUnion();
+  cal();
+  fu();
+  kosmo();
+  colonies();
   // red sox B
   // red sox sox
   // bruins
@@ -52,18 +51,32 @@ void loop() {
   // greece();
 
   // transitions
-  // wipe screen in various directions
-  // circle wipe from middle
-  // random pixels go black
-  // concentric rings from various locations
-  // concentric squares/rectangles
-  // matrix style fall down column
+  // concentric rings from various locations (ripples)
+  // concentric squares/rectangles (square ripples)
   // pixels randomly cycle until correct color
 }
 
 void clearScreen() {
-  matrix.fillScreen(matrix.Color333(0, 0, 0));
+  void (*transitions[])() = {
+    wipeLeft,
+    wipeRight,
+    wipeTop,
+    wipeBottom,
+    wipeCircleOut,
+    wipeSquareOut,
+    wipeSquareIn,
+    wipeMatrix,
+    pixelFade
+  };
+
+  randomSeed(analogRead(4));
+  int r = random(9);
+  transitions[r]();
 }
+
+/*
+ * FLAGS
+ */
 
 void triColor(uint16_t lColor, uint16_t mColor, uint16_t rColor) {
   matrix.fillRect(1, 0, 10, 16, lColor);
@@ -93,7 +106,8 @@ void ukraine() {
   clearScreen();
   matrix.fillRect(0, 0, 32, 8, matrix.Color333(0, 3, 7));
   matrix.fillRect(0, 8, 32, 8, matrix.Color333(7, 7, 0));
-  delay(DELAY);
+  delay(1000);
+//  delay(DELAY);
 }
 
 void scotland() {
@@ -322,12 +336,12 @@ void fu() {
   // smaller outer rect for thumb
   matrix.drawRect(10, 6, 3, 3, matrix.Color333(7, 7, 7));
 
+  // slowly increase height of inner rect for finger going up
   for (int i = 0; i < 5; i++) {
     delay(250);
     matrix.drawRect(14, 5-i, 3, 6+i, matrix.Color333(7, 7, 7));
     matrix.drawPixel(15, 6-i, matrix.Color333(0, 0, 0));
   }
-  // slowly increase height of inner rect for finger going up
 
   // flash fuck off on and off
   for (int i = 0; i < 7; i++) {
@@ -355,9 +369,12 @@ void fu() {
     matrix.drawLine(13, 13, 15, 11, green);
     matrix.drawLine(13, 13, 15, 15, green);
 
-    // pause then clear
     delay(500);
-    matrix.fillRect(0, 11, 17, 5, matrix.Color333(0, 0, 0));
+
+    if (i < 6) {
+      // clear
+      matrix.fillRect(0, 11, 17, 5, matrix.Color333(0, 0, 0));
+    }
 
     // o
     matrix.drawRect(19, 11, 4, 5, matrix.Color333(0, 0, 7));
@@ -374,15 +391,19 @@ void fu() {
     matrix.drawLine(28, 11, 30, 11, turquoise);
     matrix.drawLine(28, 13, 30, 13, turquoise);
 
-    // pause then clear
-    delay(500);
-    matrix.fillRect(18, 11, 17, 5, matrix.Color333(0, 0, 0));
+    if (i < 6) {
+      // pause then clear
+      delay(500);
+      matrix.fillRect(18, 11, 17, 5, matrix.Color333(0, 0, 0));
+    }
   }
 
-  clearScreen();
+  delay(DELAY);
 }
 
 void kosmo() {
+  clearScreen();
+
   matrix.setTextSize(1);
 
   matrix.setCursor(0, 0);
@@ -406,9 +427,12 @@ void kosmo() {
   matrix.drawPixel(31, 8, matrix.Color333(0, 0, 0));
   matrix.drawPixel(27, 14, matrix.Color333(0, 0, 0));
   matrix.drawPixel(31, 14, matrix.Color333(0, 0, 0));
+
+  delay(DELAY);
 }
 
 void colonies() {
+  clearScreen();
   // top left rect
   matrix.fillRect(0, 1, 11, 7, matrix.Color333(0, 0, 7));
 
@@ -432,4 +456,132 @@ void colonies() {
       matrix.drawLine(0, 1+i, 31, 1+i, color);
     }
   }
+  delay(DELAY);
 }
+
+/*
+ * TRANSITIONS
+ */
+
+void wipeLeft() {
+  for (int i = 0; i <= 32; i++) {
+    matrix.fillRect(0, 0, i, 16, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+void wipeRight() {
+  for (int i = 0; i < 32; i++) {
+    matrix.fillRect(31-i, 0, i+1, 16, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+void wipeTop() {
+  for (int i = 0; i < 16; i++) {
+    matrix.fillRect(0, i, 32, i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+void wipeBottom() {
+  for (int i = 0; i <= 16; i++) {
+    matrix.fillRect(0, 16-i, 32, i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+// TODO: support centering circle in different places
+void wipeCircleOut() {
+  // radius must go slightly larger than width to account for diagonal
+  for (int i = 0; i < 19; i++) {
+    matrix.fillCircle(15, 7, i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+// TODO: has bugs, because circle is not being filled it misses some pixels
+void wipeCircleIn() {
+  for (int i = 0; i < 16; i++) {
+    matrix.drawCircle(15, 7, 16-i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+// TODO: support arbitrary placement
+void wipeSquareOut() {
+  for (int i = 1; i < 32; i++) {
+    matrix.drawRect(16-i, 8-i, 2*i, 2*i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+// TODO: support arbitrary placement
+void wipeSquareIn() {
+  // start on sides
+  for (int i = 0; i < 8; i++) {
+    matrix.drawLine(i, 0, i, 15, matrix.Color333(0, 0, 0));
+    matrix.drawLine(31-i, 0, 31-i, 15, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+
+  for (int i = 0; i < 8; i++) {
+    matrix.drawRect(8+i, i, 16-2*i, 16-2*i, matrix.Color333(0, 0, 0));
+    delay(30);
+  }
+}
+
+// TODO: support already-empty columns
+void wipeMatrix() {
+  int cols[32];
+  for (int i = 0; i < 32; i++) {
+    cols[i] = i;
+  }
+
+  int n = 31;
+  randomSeed(analogRead(4));
+
+  // "truncate" the array without actually truncating the array
+  while (n >= 0) {
+    int r = random(n);
+    wipeCol(cols[r]);
+    cols[r] = cols[n];
+    n--;
+  }
+}
+
+void wipeCol(int col) {
+  for (int i = 0; i < 16; i++) {
+    matrix.drawLine(col, 0, col, i, matrix.Color333(0, 0, 0));
+    delay(20);
+  }
+}
+
+/*
+ * Must do chunks of 2, running out of memory when doing individual pixels
+ */
+void pixelFade() {
+  int numPixel = 256;
+  int pixels[numPixel];
+  for (int i = 0; i < numPixel; i++) {
+    pixels[i] = i;
+  }
+
+  randomSeed(analogRead(4));
+  int p = numPixel-1;
+  while (p >= 0) {
+    int r = random(p);
+    deletePixel(pixels[r]);
+    pixels[r] = pixels[p];
+    p--;
+  }
+}
+
+void deletePixel(int p) {
+  int row = p / 16;
+  int col = p % 16;
+  matrix.fillRect(2*col, 2*row, 2, 2, matrix.Color333(0, 0, 0));
+  delay(30);
+}
+
+// void diagWipe
