@@ -17,6 +17,7 @@ typedef struct point {
 
 void setup() {
   matrix.begin();
+  randomSeed(analogRead(4));
 }
 
 void loop() {
@@ -99,7 +100,6 @@ void clearScreen() {
     pixelFade
   };
 
-  randomSeed(analogRead(4));
   int r = random(9);
   transitions[r]();
 }
