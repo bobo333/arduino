@@ -8,7 +8,7 @@
 #define C   A2
 
 RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, false);
-const int DELAY = 1000;
+const int DELAY = 3000;
 
 typedef struct point {
     int x;
@@ -21,49 +21,7 @@ void setup() {
 }
 
 void loop() {
-  france();
-  delay(DELAY);
-  clearScreen();
-  italy();
-  delay(DELAY);
-  clearScreen();
-  ireland();
-  delay(DELAY);
-  clearScreen();
-  ukraine();
-  delay(DELAY);
-  clearScreen();
-  scotland();
-  delay(DELAY);
-  clearScreen();
-  canada();
-  delay(DELAY);
-  clearScreen();
-  quebec();
-  delay(DELAY);
-  clearScreen();
-  iceland();
-  delay(DELAY);
-  clearScreen();
-  jollyRoger();
-  delay(DELAY);
-  clearScreen();
-  eu();
-  delay(DELAY);
-  clearScreen();
-  sovietUnion();
-  delay(DELAY);
-  clearScreen();
-  cal();
-  delay(DELAY);
-  clearScreen();
-  fu();
-  delay(DELAY);
-  clearScreen();
-  kosmo();
-  delay(DELAY);
-  clearScreen();
-  colonies();
+  nextDisplay();
   delay(DELAY);
   clearScreen();
   // red sox B
@@ -87,6 +45,40 @@ void loop() {
   // pixels randomly cycle until correct color
 }
 
+void (*LAST_DISPLAY) ();
+
+void nextDisplay() {
+  void (*displays[])() {
+    france,
+    italy,
+    ireland,
+    ukraine,
+    scotland,
+    canada,
+    quebec,
+    iceland,
+    jollyRoger,
+    eu,
+    sovietUnion,
+    cal,
+    fu,
+    kosmo,
+    colonies,
+    batman
+  };
+
+  int num = sizeof displays / sizeof displays[0];
+
+  int r = random(num);
+  while (displays[r] == LAST_DISPLAY) {
+    r = random(num);
+  }
+  displays[r]();
+  LAST_DISPLAY = displays[r];
+}
+
+void (*LAST_CLEAR) ();
+
 void clearScreen() {
   void (*transitions[])() = {
     wipeLeft,
@@ -100,8 +92,14 @@ void clearScreen() {
     pixelFade
   };
 
-  int r = random(9);
+  int num = sizeof transitions / sizeof transitions[0];
+
+  int r = random(num);
+  while (transitions[r] == LAST_CLEAR) {
+    r = random(num);
+  }
   transitions[r]();
+  LAST_CLEAR = transitions[r];
 }
 
 /*
@@ -226,8 +224,7 @@ void sovietUnion() {
   matrix.drawLine(3, 6, 5, 4, gold);
   matrix.drawLine(5, 6, 8, 9, gold);
   // sickle
-  matrix.drawLine(3, 9, 4, 8, gold);
-  matrix.drawPixel(5, 8, gold);
+  matrix.drawLine(4, 9, 5, 8, gold);
   matrix.drawPixel(7, 7, gold);
   matrix.drawPixel(8, 6, gold);
   matrix.drawPixel(8, 5, gold);
@@ -452,6 +449,55 @@ void colonies() {
       matrix.drawLine(0, 1+i, 31, 1+i, color);
     }
   }
+}
+
+void batman() {
+  uint16_t yellow = matrix.Color333(7, 7, 0);
+  uint16_t black = matrix.Color333(0, 0, 0);
+
+  matrix.fillRect(10, 1, 12, 14, yellow);
+  matrix.fillRect(4, 6, 24, 4, yellow);
+
+  for (int i = 0; i < 5; i++) {
+    matrix.drawLine(i+4, 6, 9, i+1, yellow);
+    matrix.drawLine(i+4, 9, 9, 14-i, yellow);
+    matrix.drawLine(22, i+1, i+22, i+1, yellow);
+    matrix.drawLine(22, 10+i, 22+i, 10, yellow);
+  }
+
+  // head
+  matrix.fillRect(14, 3, 4, 4, black);
+  matrix.drawPixel(14, 2, black);
+  matrix.drawPixel(17, 2, black);
+
+  // top
+  matrix.fillRect(6, 7, 20, 2, black);
+  matrix.drawLine(6, 6, 10, 2, black);
+  matrix.drawLine(25, 6, 21, 2, black);
+  for (int i = 0; i < 4; i++) {
+    matrix.drawLine(6+i, 6, 6+i, 6-i, black);
+    matrix.drawLine(25-i, 6, 25-i, 6-i, black);
+  }
+
+  matrix.drawPixel(13, 6, black);
+  matrix.drawPixel(10, 6, black);
+  matrix.drawPixel(18, 6, black);
+  matrix.drawPixel(21, 6, black);
+
+  // bottom
+  matrix.drawLine(25, 9, 22, 12, black);
+  matrix.drawLine(6, 9, 9, 12, black);
+  for (int i = 0; i < 2; i++) {
+    matrix.drawLine(7+i, 9, 7+i, 9+i, black);
+    matrix.drawLine(24-i, 9, 24-i, 9+i, black);
+  }
+  matrix.drawLine(10, 9, 21, 9, black);
+  matrix.fillRect(14, 10, 4, 2, black);
+  matrix.drawLine(15, 12, 16, 12, black);
+  matrix.drawPixel(13, 10, black);
+  matrix.drawPixel(18, 10, black);
+  matrix.drawPixel(11, 10, black);
+  matrix.drawPixel(20, 10, black);
 }
 
 /*
